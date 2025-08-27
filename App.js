@@ -19,7 +19,8 @@ export default function App() {
 useEffect(() => {
   const loadTasks = async () => {
 try{
-const saveTasks = await AsyncStorage.getItem("taks");
+const savedTasks = await AsyncStorage.getItem("tasks");
+savedTasks && setTasks(JSON.parse(savedTasks));
 }catch(error){
   console.error("Errp ao carregar as tarefas:", error);
 }
