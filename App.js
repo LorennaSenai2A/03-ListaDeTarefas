@@ -13,8 +13,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 
 export default function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [tasks,setTasks] = useState([]); //Estado para armazenar a lista de tarefas
   const [newTask,setNewTask] = useState(""); //Estado para o texto da nova tarefa
+
+  const toggleTheme = () => setIsDarkMode((prev) => !prev);
+
+  const styles= createStyles(isDarkMode);
 
 useEffect(() => {
   const loadTasks = async () => {
@@ -95,8 +100,10 @@ onPress: () =>
     <View style={styles.container}>
       <View style={styles.topBar}>
         <Text style={styles.topBarTitle}>Minhas Tarefas</Text>
-        <TouchableOpacity>
-          <Text>🌙</Text>
+        <TouchableOpacity onPress={toggleTheme}>
+          <Text style={styles.emoji}>
+            {isDarkMode ? "🌞" : "🌚"}
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -137,113 +144,115 @@ onPress: () =>
       />
       
 
-      <StatusBar style="auto" /> 
+      <StatusBar style= {isDarkMode ? "light" : "dark"} /> 
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#e0f7fa",
-    flex: 1,
-  },
-  topBar: {
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: 50, //Ajuste para a barra de status
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(0,0,0,0.1)",
-  },
-  topBarTitle: {
-    color: "#00796b",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  card: {
-    backgroundColor: "#fff",
-    color: "#000",
-    shadowColor: "#000",
-    margin: 20,
-    borderRadius: 15,
-    padding: 20,
-    shadowOffset: { widht: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 10, //elevar a cima dos outros
-  },
-  input: {
-    backgroundColor: "#fcfcfc",
-    color: "#333",
-    borderColor: "#b0bec5",
-    borderWidth: 1,
-    borderRadius: 15,
-    padding: 20,
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  addButton: {
-    backgroundColor: "#009688",
-    paddingVertical: 12,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  flatListContent: {
-    paddingBottom: 10, //Espaçamento no final da lista
-  },
-  taskItem: {
-    backgroundColor: "#fff",
-    borderColor: "rgba(0,0,0,0.1)",
-    color: "#333",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderRadius: 10,
-    padding: 15,
-    marginVertical: 10,
-    marginHorizontal: 15,
-    shadowOffset: { widht: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 5,
-    borderWidth: 1,
-  },
-  taskTextContainer:{
-    flex:1, //Permite que o texto ocupe o espaço disponivel
-    marginRight: 10,
-  },
-  taskText:{
-    color: "#333",
-    fontSize: 18,
-    flexWrap: "wrap", //permite que o texto quebre linha 
-  },
-  completedTaskItem:{
-    textDecorationLine: "line-through", //risca o texto
-    opacity: 0.6,
-  },
-  deleteButton: {
-    padding: 8,
-    borderRadius: 5,
-  },
-  deleteButtonText:{
-    // color: "#fff"
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-  emptyListText:{
-    color: "#9e9e9e",
-    textAlign: "center",
-    marginTop: 50,
-    fontSize: 16,
-  },
-});
-
-
+const createStyles = (isDarkMode) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: isDarkMode ? "#a75bdaff" : "#c390f6ff",
+      flex: 1,
+    },
+    topBar: {
+      backgroundColor: isDarkMode ? "#FF2DD1" : "#E9A5F1",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 20,
+      paddingTop: 50, // Ajuste para a barra de status
+      paddingBottom: 15,
+      borderBottomWidth: 1,
+      borderBottomColor: isDarkMode ? "#333333" : "rgba(0,0,0,0.1)",
+    },
+    topBarTitle: {
+      color: isDarkMode ? "#FFFFFF" : "#000000",
+      fontSize: 24,
+      fontWeight: "bold",
+    },
+    emoji:{
+      fontSize: 30,
+    },
+    card: {
+      backgroundColor: isDarkMode ? "#91de70ff" : "#AEEA94",
+      color: isDarkMode ? "#FFFFFF" : "#000000",
+      shadowColor: isDarkMode ? "#FFFFFF" : "#000000",
+      margin: 20,
+      borderRadius: 15,
+      padding: 20,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.2,
+      shadowRadius: 8,
+      elevation: 10, // Elevar acima dos outros
+    },
+    input: {
+      backgroundColor: isDarkMode ? "#FCFCFC" : "#FCFCFC",
+      color: isDarkMode ? "#FFFFFF" : "#333333",
+      borderColor: isDarkMode ? "#555555" : "#8897D680",
+      borderWidth: 1,
+      borderRadius: 15,
+      padding: 20,
+      fontSize: 18,
+      marginBottom: 10,
+    },
+    addButton: {
+      backgroundColor: isDarkMode ? "#FF2DD1" : "#E9A5F1",
+      paddingVertical: 12,
+      borderRadius: 10,
+      alignItems: "center",
+    },
+    buttonText: {
+      color: isDarkMode ? "#ffffff" : "#FFFFFF",
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+    flatListContent: {
+      paddingBottom: 10, // Espaçamento no final da lista
+    },
+    taskItem: {
+      backgroundColor: isDarkMode ? "#91de70ff" : "#AEEA94",
+      borderColor: isDarkMode ? "#555555" : "rgba(0,0,0,0.1)",
+      color: isDarkMode ? "#FFFFFF" : "#333333",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderRadius: 10,
+      padding: 15,
+      marginVertical: 10,
+      marginHorizontal: 15,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 3,
+      elevation: 5,
+      borderWidth: 1,
+    },
+    taskTextContainer: {
+      flex: 1, // Permite que o texto ocupe o espaço disponível
+      marginRight: 10,
+    },
+    taskText: {
+      color: isDarkMode ? "#FFFFFF" : "#333333",
+      fontSize: 18,
+      flexWrap: "wrap", // Permite que o texto quebre linha
+    },
+    completedTaskItem: {
+      textDecorationLine: "line-through", // Risca o texto
+      opacity: 0.6,
+    },
+    deleteButton: {
+      padding: 8,
+      borderRadius: 5,
+    },
+    deleteButtonText: {
+      color: isDarkMode ? "#FFFFFF" : "#000000",
+      fontSize: 22,
+      fontWeight: "bold",
+    },
+    emptyListText: {
+      color: isDarkMode ? "#AAAAAA" : "#9e9e9e",
+      textAlign: "center",
+      marginTop: 50,
+      fontSize: 16,
+    },
+  });
